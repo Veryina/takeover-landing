@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <title>TakeOver | Search Intercept Positioning</title>
+ <style>
+ * { box-sizing: border-box; }
+ html { scroll-behavior: smooth; }
+ body {
+ margin: 0;
+ background: #07090d;
+ color: #fff;
+ font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+ overflow-x: hidden;
+ }
+ a { color: inherit; text-decoration: none; }
+ .page { position: relative; overflow: hidden; }
+ .glow-top {
+ position: absolute;
+ top: -220px;
+ left: 50%;
+ transform: translateX(-50%);
+ width: 1000px;
+ height: 650px;
+ border-radius: 999px;
+ background: radial-gradient(circle, rgba(37,99,235,.28), transparent 62%);
+ pointer-events: none;
+ }
+ .right-rail {
+ position: fixed;
+ top: 0;
+ right: 0;
+ width: 14vw;
+ height: 100vh;
+ background: rgba(23,37,84,.28);
+ pointer-events: none;
+ }
+ .container {
+ width: min(1180px, calc(100% - 40px));
+ margin: 0 auto;
+ position: relative;
+ z-index: 2;
+ }
+ header {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ padding: 34px 0;
+ }
+ .brand {
+ display: flex;
+ align-items: center;
+ gap: 14px;
+ }
+ .brand-mark {
+ width: 48px;
+ height: 48px;
+ border-radius: 14px;
+ display: grid;
+ place-items: center;
+ color: #60a5fa;
+ font-weight: 900;
+ font-size: 28px;
+ background: rgba(37,99,235,.14);
+ border: 1px solid rgba(96,165,250,.35);
+ box-shadow: 0 0 30px rgba(37,99,235,.12);
+ }
+ .brand-title { font-size: 28px; font-weight: 900; letter-spacing: -.04em; }
+ .brand-sub { color: rgba(255,255,255,.48); font-size: 13px; margin-top: 1px; }
+ nav { display: flex; gap: 28px; color: rgba(255,255,255,.58); font-size: 14px; }
+ nav a:hover { color: #fff; }
+ .pill {
+ display: inline-flex;
+ align-items: center;
+ gap: 8px;
+ border: 1px solid rgba(96,165,250,.35);
+ background: rgba(255,255,255,.04);
+ border-radius: 999px;
+ padding: 10px 16px;
+ color: rgba(255,255,255,.75);
+ font-size: 12px;
+ text-transform: uppercase;
+ letter-spacing: .18em;
+ font-weight: 800;
+ }
+ .hero {
+ min-height: 92vh;
+ padding-bottom: 90px;
+ text-align: center;
+ }
+ .eyebrow {
+ display: inline-flex;
+ margin-top: 64px;
+ margin-bottom: 30px;
+ align-items: center;
+ gap: 9px;
+ border: 1px solid rgba(255,255,255,.1);
+ background: rgba(255,255,255,.05);
+ color: rgba(255,255,255,.68);
+ border-radius: 999px;
+ padding: 11px 17px;
+ font-size: 14px;
+ }
+ h1 {
+ margin: 0;
+ font-size: clamp(45px, 7vw, 86px);
+ line-height: .98;
+ letter-spacing: -.07em;
+ font-weight: 950;
+ }
+ .blue { color: #3b82f6; }
+ .hero-sub {
+ margin-top: 26px;
+ color: rgba(255,255,255,.62);
+ font-size: clamp(17px, 2vw, 22px);
+ }
+ .search-card {
+ width: min(850px, 100%);
+ margin: 48px auto 0;
+ background: #11141b;
+ border: 1px solid rgba(96,165,250,.22);
+ border-radius: 34px;
+ padding: 22px;
+ box-shadow: 0 0 80px rgba(37,99,235,.14);
+ }
+ .search-bar {
+ height: 68px;
+ background: #fff;
+ border-radius: 999px;
+ color: #111827;
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ padding: 0 28px;
+ font-size: clamp(18px, 2.2vw, 26px);
+ font-weight: 650;
+ }
+ .suggest-box {
+ margin-top: 14px;
+ background: #fff;
+ color: #111827;
+ border-radius: 28px;
+ overflow: hidden;
+ text-align: left;
+ box-shadow: 0 24px 60px rgba(0,0,0,.24);
+ }
+ .suggest-row {
+ display: flex;
+ justify-content: space-between;
+ gap: 18px;
+ padding: 15px 28px;
+ border-top: 1px solid rgba(0,0,0,.08);font-size: clamp(15px, 1.7vw, 19px);
+ color: rgba(17,24,39,.72);
+ }
+ .suggest-row:first-child { border-top: 0; }
+ .suggest-row.active {
+ background: #eff6ff;
+ color: #111827;
+ font-weight: 900;
+ }
+ .suggest-row .company { color: #2563eb; font-weight: 950; }
+ .under-search { color: rgba(255,255,255,.52); margin-top: 17px; font-size: 15px; }
+ .hero-statement { margin-top: 38px; font-size: clamp(28px, 4vw, 46px); line-height: 1.08; font-weight: 950; letter-spacing: -.04em; }
+ .buttons { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; margin-top: 34px; }
+ .button {
+ border-radius: 999px;
+ padding: 17px 26px;
+ font-size: 13px;
+ font-weight: 950;
+ text-transform: uppercase;
+ letter-spacing: .12em;
+ display: inline-flex;
+ align-items: center;
+ gap: 8px;
+ }
+ .button.primary { background: #2563eb; box-shadow: 0 0 28px rgba(37,99,235,.25); }
+ .button.secondary { border: 1px solid rgba(255,255,255,.14); color: rgba(255,255,255,.74); }
+ section { padding: 105px 0; position: relative; }
+ .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 54px; align-items: center; }
+ .label { color: #60a5fa; font-size: 12px; font-weight: 950; text-transform: uppercase; letter-spacing: .28em; margin-bottom: 18px; }
+ h2 { margin: 0; font-size: clamp(38px, 5vw, 66px); line-height: 1.02; letter-spacing: -.06em; font-weight: 950; }
+ .section-text { color: rgba(255,255,255,.6); font-size: 20px; line-height: 1.65; margin-top: 24px; }
+ .problem-card, .dark-card {
+ background: #11141b;
+ border: 1px solid rgba(255,255,255,.1);
+ border-radius: 34px;
+ padding: 34px;
+ }
+ .problem-card { border-color: rgba(248,113,113,.18); }
+ .mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+ .mini-box { background: rgba(0,0,0,.24); border: 1px solid rgba(255,255,255,.08); border-radius: 18px; padding: 18px; color: rgba(255,255,255,.7); }
+ .center { text-align: center; }
+ .journey-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-top: 60px; }
+ .step { background: #11141b; border: 1px solid rgba(255,255,255,.09); border-radius: 26px; padding: 24px; min-height: 235px; }
+ .num { width: 42px; height: 42px; display: grid; place-items: center; background: #2563eb; border-radius: 999px; font-weight: 900; margin-bottom: 22px; }
+ .step h3, .feature h3, .faq h3 { margin: 0; font-size: 22px; letter-spacing: -.03em; }
+ .step p, .feature p, .faq p { color: rgba(255,255,255,.55); line-height: 1.55; }
+ .compare-wrap { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 26px; max-width: 1060px; margin: auto; }
+ .compare-card { background: #11141b; border: 1px solid rgba(255,255,255,.12); border-radius: 34px; padding: 38px; }
+ .compare-card.takeover { border-color: rgba(96,165,250,.45); box-shadow: 0 0 50px rgba(37,99,235,.08); }
+ .vs { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 80px; height: 80px; border-radius: 999px; background: #2563eb; display: grid; place-items: center; font-size: 26px; font-weight: 950; border: 1px solid rgba(147,197,253,.6); box-shadow: 0 0 34px rgba(37,99,235,.45); }
+ .compare-card h3 { font-size: clamp(34px, 4vw, 50px); line-height: 1.04; margin: 22px 0 28px; letter-spacing: -.05em; }
+ ul { padding: 0; margin: 0; list-style: none; color: rgba(255,255,255,.68); line-height: 2; font-size: 18px; }
+ .big-line { max-width: 1050px; margin: 70px auto 0; text-align: center; font-size: clamp(42px, 5vw, 68px); line-height: 1.05; letter-spacing: -.06em; font-weight: 950; }
+ .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+ .feature { background: #11141b; border: 1px solid rgba(255,255,255,.09); border-radius: 34px; padding: 34px; }
+ .icon { font-size: 36px; color: #60a5fa; margin-bottom: 22px; }
+ .industry-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 55px; }.industry { background: rgba(255,255,255,.035); border: 1px solid rgba(255,255,255,.1); border-radius: 24px; padding: 26px; font-size: 20px; font-weight: 900; color: rgba(255,255,255,.82); }
+ .exclusive {
+ background: #10141d;
+ border: 1px solid rgba(96,165,250,.35);
+ border-radius: 38px;
+ padding: 50px;
+ box-shadow: 0 0 80px rgba(37,99,235,.08);
+ }
+ .keyword-pills { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+ .keyword { border-radius: 999px; padding: 10px 15px; font-size: 12px; font-weight: 900; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); color: rgba(255,255,255,.55); }
+ .keyword.active { background: #2563eb; color: #fff; border-color: #60a5fa; box-shadow: 0 0 22px rgba(37,99,235,.38); }
+ .webinar-card { background: #10141d; border: 1px solid rgba(96,165,250,.35); border-radius: 38px; padding: 34px; box-shadow: 0 0 80px rgba(37,99,235,.15); }
+ .video { aspect-ratio: 16/9; border-radius: 30px; background: rgba(0,0,0,.34); border: 1px solid rgba(255,255,255,.1); display: grid; place-items: center; font-size: 80px; color: #60a5fa; margin-bottom: 30px; }
+ .check-list { display: grid; gap: 16px; margin-top: 30px; color: rgba(255,255,255,.75); }
+ .final-cta { text-align: center; background: rgba(37,99,235,.1); border: 1px solid rgba(96,165,250,.35); border-radius: 38px; padding: 56px 34px; }
+ footer { text-align: center; color: rgba(255,255,255,.38); padding: 40px 0 70px; line-height: 1.8; }
+ @media (max-width: 900px) {
+ nav, .pill, .right-rail { display: none; }
+ .grid-2, .compare-wrap, .feature-grid, .journey-grid { grid-template-columns: 1fr; }
+ .industry-grid { grid-template-columns: 1fr 1fr; }
+ .vs { position: relative; left: auto; top: auto; transform: none; margin: -5px auto; }
+ header { align-items: flex-start; }
+ .brand-title { font-size: 24px; }
+ .search-card { padding: 15px; }
+ .suggest-row { flex-direction: column; gap: 4px; }
+ }
+ </style>
+</head>
+<body>
+ <div class="page">
+ <div class="glow-top"></div>
+ <div class="right-rail"></div>
+
+ <section class="hero">
+ <div class="container">
+ <header>
+ <div class="brand">
+ <div class="brand-mark">T</div>
+ <div>
+ <div class="brand-title">TakeOver™</div>
+ <div class="brand-sub">Search Intercept Positioning™</div>
+ </div>
+ </div>
+ <nav>
+ <a href="#problem">Problem</a>
+ <a href="#journey">Journey</a>
+ <a href="#webinar">Webinar</a>
+ <a href="#faq">FAQ</a>
+ </nav>
+ <a href="#webinar" class="pill">▶️ Watch The Webinar</a>
+ </header>
+
+ <div class="eyebrow">✦ Search Intercept Positioning™</div>
+ <h1>What If Google Suggested YOU<br><span class="blue">Before Showing Results?</span></h1>
+ <p class="hero-sub">Before the click. <span>•</span> Before the ads. <span>•</span> Before the competition.</p><div class="search-card">
+ <div class="search-bar"><span>motorcycle injury attorney</span><span>⌕</span></div>
+ <div class="suggest-box">
+ <div class="suggest-row active"><div style="display:flex;align-items:center;gap:10px;"><span style="font-weight:500;">motorcycle injury attorney</span><span class="company" style="text-transform:lowercase;">your law firm</span></div><div style="display:flex;align-items:center;gap:6px;font-size:14px;font-weight:800;color:#1d4ed8;"><span style="display:inline-flex;width:18px;height:18px;border-radius:999px;background:#1d4ed8;color:white;align-items:center;justify-content:center;font-size:11px;line-height:1;">✓</span><span>Verified</span></div></div>
+ <div class="suggest-row">motorcycle injury attorney near me</div>
+ <div class="suggest-row">motorcycle injury attorney los angeles</div>
+ <div class="suggest-row">motorcycle injury attorney chicago</div>
+ </div>
+ <div class="under-search">The moment search intent begins... you are already positioned.</div>
+ </div>
+
+ <div class="hero-statement">
+ You do not compete for demand.<br>
+ <span class="blue">You intercept it before it happens.</span>
+ </div>
+
+ <div class="buttons">
+ <a class="button primary" href="#webinar">Watch The Webinar ▶️</a>
+ <a class="button secondary" href="mailto:dimitri@takeoverpage.com?subject=TakeOver Market Availability">Check Market Availability</a>
+ </div>
+ </div>
+ </section>
+
+ <section id="problem">
+ <div class="container grid-2">
+ <div>
+ <div class="label">The Problem</div>
+ <h2>Google results are now a crowded battlefield.</h2>
+ <p class="section-text">By the time someone reaches the results page, they're surrounded by ads, maps, competitors, reviews, AI summaries, and distractions. That's where every business is fighting.</p>
+ </div>
+ <div class="problem-card">
+ <div class="label" style="color:#f87171;">Traditional Paid Search</div>
+ <div class="mini-grid">
+ <div class="mini-box">Bidding wars</div>
+ <div class="mini-box">Rising CPCs</div>
+ <div class="mini-box">Competitors everywhere</div>
+ <div class="mini-box">Pay more to stay visible</div>
+ <div class="mini-box">Distracted buyers</div>
+ <div class="mini-box">Lower control</div>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ <section id="journey">
+ <div class="container center">
+ <div class="label">The Google Journey</div>
+ <h2>The best moment to win the search<br>is before the results page.</h2>
+ <div class="journey-grid">
+ <div class="step"><div class="num">1</div><h3>Search Begins</h3><p>A buyer types a high-intent phrase.</p></div>
+ <div class="step"><div class="num">2</div><h3>Suggestion Appears</h3><p>Your brand is positioned inside the search path.</p></div>
+ <div class="step"><div class="num">3</div><h3>Brand Selected</h3><p>They choose you before seeing competitors.</p></div>
+ <div class="step"><div class="num">4</div><h3>Results Page Opens</h3><p>They land inside your branded ecosystem.</p></div>
+ <div class="step"><div class="num">5</div><h3>Verified Visitor</h3><p>The visitor reaches your website.</p></div>
+ </div>
+ </div>
+ </section><section>
+ <div class="container">
+ <div class="compare-wrap">
+ <div class="compare-card">
+ <div class="label" style="color:#f87171;">Traditional Google Ads</div>
+ <h3>Everyone fights<br>for attention</h3>
+ <ul>
+ <li>• Bidding wars</li>
+ <li>• Rising CPCs</li>
+ <li>• Competitors everywhere</li>
+ <li>• Pay more to stay visible</li>
+ </ul>
+ </div>
+ <div class="vs">VS</div>
+ <div class="compare-card takeover">
+ <div class="label">TakeOver</div>
+ <h3>You become<br>the selected option</h3>
+ <ul>
+ <li>• Positioned before the click</li>
+ <li>• Fixed verified visitor pricing</li>
+ <li>• One company per phrase</li>
+ <li>• No competing placement</li>
+ </ul>
+ </div>
+ </div>
+ <div class="big-line">You don't compete for <span class="blue">demand.</span><br>You <span class="blue">intercept</span> it before it happens.</div>
+ </div>
+ </section>
+
+ <section>
+ <div class="container center">
+ <div class="label">The Economics Are The Problem</div>
+ <h2>Same intent.<br>Completely different economics.</h2>
+
+ <div class="compare-wrap" style="margin-top:60px;max-width:980px;">
+ <div class="compare-card" style="border-color:rgba(248,113,113,.22);">
+ <div class="label" style="color:#f87171;">Traditional Google Ads</div>
+ <h3 style="font-size:62px;margin-bottom:12px;color:#f87171;">$560</h3>
+ <div style="font-size:20px;color:rgba(255,255,255,.6);margin-bottom:22px;">Per Click</div>
+ <div style="font-size:18px;color:white;font-weight:700;">motorcycle injury attorney</div>
+ <p class="section-text" style="font-size:17px;">Auction pricing. Competitor bidding. Escalating CPCs.</p>
+ </div>
+
+ <div class="vs">VS</div>
+
+ <div class="compare-card takeover">
+ <div class="label">TakeOver Verified Visitor</div>
+ <h3 style="font-size:62px;margin-bottom:12px;color:#3b82f6;">$45</h3>
+ <div style="font-size:20px;color:rgba(255,255,255,.6);margin-bottom:22px;">Per Verified Visitor</div>
+ <div style="font-size:18px;color:white;font-weight:700;">Same Search Intent</div>
+ <p class="section-text" style="font-size:17px;">Pre-search positioning. No bidding war. Controlled placement.</p>
+ </div>
+ </div>
+
+ <p class="section-text" style="max-width:850px;margin:40px auto 0;font-size:22px;">You're not buying cheaper clicks. You're changing where the buyer chooses.</p>
+ </div>
+ </section>
+
+ <section>
+ <div class="container center">
+ <div class="label">Reaction From Business Owners</div>
+ <h2>This changes how people think about search.</h2>
+
+ <div class="feature-grid" style="margin-top:60px;">
+ <div class="feature">
+ <p style="font-size:22px;line-height:1.6;color:white;">"This made me rethink paid search completely."</p>
+ <div style="margin-top:26px;color:rgba(255,255,255,.48);font-size:14px;">Multi-location service business owner</div>
+ </div>
+
+ <div class="feature">
+ <p style="font-size:22px;line-height:1.6;color:white;">"The craziest part is the buyer sees you before competitors even appear."</p>
+ <div style="margin-top:26px;color:rgba(255,255,255,.48);font-size:14px;">Marketing director</div>
+ </div>
+
+ <div class="feature">
+ <p style="font-size:22px;line-height:1.6;color:white;">"This feels less like advertising and more like owning search real estate."</p>
+ <div style="margin-top:26px;color:rgba(255,255,255,.48);font-size:14px;">Franchise operator</div>
+ </div>
+ </div>
+ </div>
+ </section><section>
+ <div class="container feature-grid">
+ <div class="feature"><div class="icon">⌖</div><h3>Verified Visitors</h3><p>The model is designed around visitors who actually reach your website — not empty impressions.</p></div>
+ <div class="feature"><div class="icon">$</div><h3>Fixed Pricing Logic</h3><p>No bidding wars. No auction panic. No paying more just because competitors woke up spicy.</p></div>
+ <div class="feature"><div class="icon">✓</div><h3>Exclusivity Advantage</h3><p>One company controls the phrase. That's where the leverage comes from.</p></div>
+ </div>
+ </section>
+
+ <section>
+ <div class="container center">
+ <div class="label">High-Intent Categories</div>
+ <h2>Built for markets where one buyer<br>can be worth thousands.</h2>
+ <div class="industry-grid">
+ <div class="industry">Attorneys</div><div class="industry">Plastic Surgeons</div><div class="industry">Home Services</div><div class="industry">Insurance</div>
+ <div class="industry">Real Estate</div><div class="industry">Auto Finance</div><div class="industry">Medical Spas</div><div class="industry">Franchises</div>
+ </div>
+ </div>
+ </section>
+
+ <section>
+ <div class="container exclusive grid-2">
+ <div>
+ <div class="label">Limited Positioning Access</div>
+ <h2>Only ONE company<br>per search phrase.</h2>
+ <p class="section-text">Once secured, competitors are locked out. Availability changes by category, market, and phrase.</p>
+ <div class="keyword-pills">
+ <span class="keyword active">motorcycle injury attorney</span>
+ <span class="keyword">facelift los angeles</span>
+ <span class="keyword">kitchen remodel near me</span>
+ <span class="keyword">auto insurance quotes</span>
+ <span class="keyword">bad credit auto loan</span>
+ <span class="keyword">realtor beverly hills</span>
+ </div>
+ </div>
+ <div class="dark-card">
+ <div class="icon">🔒</div>
+ <h3 style="font-size:34px;margin:0;">Market access is not unlimited.</h3>
+ <p class="section-text">The entire point is control. If everyone could own the same phrase, it would become another auction. That's exactly what this avoids.</p>
+ </div>
+ </div>
+ </section>
+
+ <section id="webinar">
+ <div class="container grid-2">
+ <div>
+ <div class="label">Private Webinar</div>
+ <h2>See how pre-search positioning works before you ever talk pricing.</h2>
+ <p class="section-text">The webinar walks through the concept, why traditional search is becoming more expensive, and how TakeOver changes the moment where the buyer chooses.</p>
+ <div class="check-list">
+ <div>✓ How Search Intercept Positioning works</div>
+ <div>✓ Why the autosuggest moment is so valuable</div>
+ <div>✓ How exclusivity protects the phrase</div>
+ <div>✓ How verified visitors change the conversation</div>
+ </div>
+ </div>
+ <div class="webinar-card">
+ <div class="video">▶️</div>
+ <h3 style="font-size:40px;margin:0;">Request Private Access</h3>
+ <p class="section-text">Send an email and ask whether your market/category is still open.</p>
+ <a class="button primary" style="width:100%;justify-content:center;margin-top:10px;" href="mailto:dimitri@takeoverpage.com?subject=TakeOver Webinar Access">Request Webinar Access →</a>
+ <div class="dark-card" style="margin-top:24px;color:rgba(255,255,255,.6);padding:22px;">
+ dimitri@takeoverpage.com<br>310-435-6007 • 310-717-3339
+ </div>
+ </div>
+ </div>
+ </section><section id="faq">
+ <div class="container" style="max-width:900px;">
+ <div class="center"><div class="label">Common Questions</div><h2>Quick answers before the webinar.</h2></div>
+ <div style="display:grid;gap:18px;margin-top:52px;">
+ <div class="faq dark-card"><h3>Is this Google Ads?</h3><p>No. TakeOver is not a Google Ads campaign. The positioning happens before the traditional results page becomes the battlefield.</p></div>
+ <div class="faq dark-card"><h3>When do I pay?</h3><p>The model is built around verified visitors, not vanity impressions. The goal is to only pay when search intent reaches your site.</p></div>
+ <div class="faq dark-card"><h3>Can multiple companies own the same phrase?</h3><p>No. The entire value is exclusivity. One company per search phrase/category/market structure.</p></div>
+ <div class="faq dark-card"><h3>What happens if my competitor gets it first?</h3><p>That phrase/category may no longer be available in that market. This is why availability matters.</p></div>
+ </div>
+ </div>
+ </section>
+
+ <section>
+ <div class="container final-cta">
+ <div class="icon">⌖</div>
+ <h2>Make sure your market<br>is still available.</h2>
+ <p class="section-text" style="max-width:700px;margin-left:auto;margin-right:auto;">If your category is open, the next step is seeing the webinar and reviewing the phrase opportunity.</p>
+ <a class="button primary" href="mailto:dimitri@takeoverpage.com?subject=TakeOver Market Availability">Check Availability →</a>
+ </div>
+ <footer>
+ dimitri@takeoverpage.com • 310-435-6007 • 310-717-3339<br>
+ Control Search Before Results Even Appear™
+ </footer>
+ </section>
+ </div>
