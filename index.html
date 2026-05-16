@@ -3,7 +3,21 @@
 <head>
  <meta charset="UTF-8" />
  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
- <title>TakeOver | Search Intercept Positioning</title>
+ 
+ <!-- SEO Meta Tags -->
+ <title>TakeOver™ - Intercept Search Intent Before Results Load | Search Positioning Platform</title>
+ <meta name="description" content="Stop competing on Google's results page. TakeOver positions your business in search suggestions before buyers see competitors. One company per keyword. 30-90% lower cost than Google Ads." />
+ <meta name="keywords" content="search positioning, google autocomplete, pre-search advertising, search intercept, verified visitors, google ads alternative" />
+ 
+ <!-- Open Graph / Social Media -->
+ <meta property="og:type" content="website" />
+ <meta property="og:title" content="TakeOver™ - Own Search Before Results Appear" />
+ <meta property="og:description" content="The first company to own search suggestions before the results page loads. Exclusive positioning, fixed pricing, verified visitors only." />
+ <meta property="og:image" content="https://takeover-landing.vercel.app/logo.jpg" />
+ <meta property="og:url" content="https://takeover-landing.vercel.app" />
+ 
+ <!-- Favicon -->
+ <link rel="icon" type="image/jpeg" href="./logo.jpg" />
  <style>
  * { box-sizing: border-box; }
  html { scroll-behavior: smooth; }
@@ -227,16 +241,67 @@
  .check-list { display: grid; gap: 16px; margin-top: 30px; color: rgba(255,255,255,.75); }
  .final-cta { text-align: center; background: rgba(37,99,235,.1); border: 1px solid rgba(96,165,250,.35); border-radius: 38px; padding: 56px 34px; }
  footer { text-align: center; color: rgba(255,255,255,.38); padding: 40px 0 70px; line-height: 1.8; }
+ 
+ /* Modal Styles */
+ .modal {
+ display: none;
+ position: fixed;
+ z-index: 9999;
+ left: 0;
+ top: 0;
+ width: 100%;
+ height: 100%;
+ background: rgba(0,0,0,.85);
+ backdrop-filter: blur(8px);
+ }
+ .modal.active { display: flex; align-items: center; justify-content: center; animation: fadeIn .3s; }
+ @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+ .modal-content {
+ background: #11141b;
+ border: 1px solid rgba(96,165,250,.35);
+ border-radius: 34px;
+ padding: 50px;
+ max-width: 600px;
+ width: calc(100% - 40px);
+ position: relative;
+ box-shadow: 0 0 100px rgba(37,99,235,.3);
+ text-align: center;
+ animation: slideUp .3s;
+ }
+ @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+ .modal-close {
+ position: absolute;
+ top: 20px;
+ right: 20px;
+ font-size: 32px;
+ color: rgba(255,255,255,.5);
+ cursor: pointer;
+ width: 40px;
+ height: 40px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ border-radius: 50%;
+ transition: all .2s;
+ line-height: 1;
+ }
+ .modal-close:hover { background: rgba(255,255,255,.1); color: #fff; }
  @media (max-width: 900px) {
  .right-rail { display: none; }
  section { padding: 50px 0; }
  .grid-2, .compare-wrap, .feature-grid, .journey-grid { grid-template-columns: 1fr; }
  .industry-grid { grid-template-columns: 1fr 1fr; }
  .vs { position: relative; left: auto; top: auto; transform: none; margin: -5px auto; }
- header { align-items: flex-start; }
+ header { align-items: flex-start; flex-wrap: wrap; gap: 15px; }
  .brand-title { font-size: 24px; }
  .search-card { padding: 15px; }
  .suggest-row { flex-direction: column; gap: 4px; }
+ .modal-content { padding: 30px 20px; }
+ .pill { font-size: 11px; padding: 10px 16px; }
+ }
+ @media (max-width: 600px) {
+ .industry-grid { grid-template-columns: 1fr; }
+ .journey-grid { grid-template-columns: 1fr; }
  }
  </style>
 </head>
@@ -261,7 +326,7 @@
  <a href="#webinar">Webinar</a>
  <a href="#faq">FAQ</a>
  </nav>
- <a href="#webinar" class="pill">▶️ Watch The Webinar</a>
+ <a onclick="openModal()" class="pill" style="cursor:pointer;">▶️ Watch The Webinar</a>
  </header>
 
  <h1>What If Google Suggested YOU Before <span class="blue">Showing Results?</span></h1>
@@ -282,8 +347,8 @@
  </div>
 
  <div class="buttons">
- <a class="button primary" href="#webinar">Watch The Webinar ▶️</a>
- <a class="button secondary" href="mailto:dimitri@takeoverpage.com?subject=TakeOver - Request Custom Pricing">Request Custom Pricing</a>
+ <a class="button primary" onclick="openModal()" style="cursor:pointer;">Watch The Webinar ▶️</a>
+ <a class="button secondary" onclick="openModal()" style="cursor:pointer;">Learn More</a>
  </div>
  </div>
  </section>
@@ -462,10 +527,7 @@
  <div class="video">▶️</div>
  <h3 style="font-size:40px;margin:0;">Watch The Private Webinar</h3>
  <p class="section-text">See how pre-search positioning works and check if your market is still available.</p>
- <a class="button primary" style="width:100%;justify-content:center;margin-top:10px;" href="mailto:dimitri@takeoverpage.com?subject=TakeOver Webinar Access">Watch The Webinar →</a>
- <div class="dark-card" style="margin-top:24px;color:rgba(255,255,255,.6);padding:22px;">
- dimitri@takeoverpage.com<br>310-435-6007 • 310-717-3339
- </div>
+ <a class="button primary" onclick="openModal()" style="width:100%;justify-content:center;margin-top:10px;cursor:pointer;">Watch The Webinar →</a>
  </div>
  </div>
  </section><section id="faq">
@@ -485,11 +547,46 @@
  <div class="icon">⌖</div>
  <h2>Make sure your market<br>is still available.</h2>
  <p class="section-text" style="max-width:700px;margin-left:auto;margin-right:auto;">If your category is open, the next step is seeing the webinar and reviewing the phrase opportunity.</p>
- <a class="button primary" href="mailto:dimitri@takeoverpage.com?subject=TakeOver - Watch Webinar Request">Watch The Webinar →</a>
+ <a class="button primary" onclick="openModal()" style="cursor:pointer;">Watch The Webinar →</a>
  </div>
  <footer>
- dimitri@takeoverpage.com • 310-435-6007 • 310-717-3339<br>
- Control Search Before Results Even Appear™
+ Control Search Before Results Even Appear™<br>
+ <span style="font-size:12px;opacity:.6;">TakeOver © 2025 • All Rights Reserved</span>
  </footer>
  </section>
  </div>
+<!-- Modal -->
+<div id="webinarModal" class="modal" onclick="if(event.target === this) closeModal()">
+ <div class="modal-content">
+ <span class="modal-close" onclick="closeModal()">×</span>
+ <div class="icon" style="font-size:72px;margin-bottom:20px;">🎞️</div>
+ <h2 style="font-size:42px;margin-bottom:20px;">Webinar Coming Soon!</h2>
+ <p class="section-text" style="font-size:18px;margin-bottom:30px;">
+ We're putting the finishing touches on the private webinar that shows exactly how Search Intercept Positioning works.
+ </p>
+ <p class="section-text" style="font-size:16px;color:rgba(255,255,255,.7);">
+ <strong style="color:#60a5fa;">Launching Monday, May 19th</strong><br>
+ Check back soon to watch the full breakdown.
+ </p>
+ <a class="button secondary" onclick="closeModal()" style="margin-top:30px;cursor:pointer;">Got It ✓</a>
+ </div>
+</div>
+
+<script>
+function openModal() {
+ document.getElementById('webinarModal').classList.add('active');
+ document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+ document.getElementById('webinarModal').classList.remove('active');
+ document.body.style.overflow = 'auto';
+}
+// Close on ESC key
+document.addEventListener('keydown', function(e) {
+ if (e.key === 'Escape' && document.getElementById('webinarModal').classList.contains('active')) {
+ closeModal();
+ }
+});
+</script>
+</body>
+</html>
