@@ -68,46 +68,43 @@
  }
  .brand-title { font-size: 28px; font-weight: 900; letter-spacing: -.04em; }
  .brand-sub { color: rgba(255,255,255,.48); font-size: 13px; margin-top: 1px; }
- nav { display: flex; gap: 28px; color: rgba(255,255,255,.58); font-size: 14px; }
- nav a:hover { color: #fff; }
+ nav { display: none; }
  .pill {
  display: inline-flex;
  align-items: center;
  gap: 8px;
- border: 1px solid rgba(96,165,250,.35);
- background: rgba(255,255,255,.04);
+ border: 2px solid rgba(96,165,250,.5);
+ background: rgba(37,99,235,.15);
  border-radius: 999px;
- padding: 10px 16px;
- color: rgba(255,255,255,.75);
- font-size: 12px;
+ padding: 14px 22px;
+ color: #fff;
+ font-size: 14px;
  text-transform: uppercase;
- letter-spacing: .18em;
- font-weight: 800;
+ letter-spacing: .15em;
+ font-weight: 900;
+ box-shadow: 0 0 24px rgba(37,99,235,.25);
+ transition: all .2s;
+ }
+ .pill:hover {
+ background: rgba(37,99,235,.25);
+ transform: translateY(-2px);
+ box-shadow: 0 4px 28px rgba(37,99,235,.35);
  }
  .hero {
  min-height: 92vh;
  padding-bottom: 90px;
  text-align: center;
  }
- .eyebrow {
- display: inline-flex;
- margin-top: 64px;
- margin-bottom: 30px;
- align-items: center;
- gap: 9px;
- border: 1px solid rgba(255,255,255,.1);
- background: rgba(255,255,255,.05);
- color: rgba(255,255,255,.68);
- border-radius: 999px;
- padding: 11px 17px;
- font-size: 14px;
- }
+ .eyebrow { display: none; }
  h1 {
  margin: 0;
  font-size: clamp(45px, 7vw, 86px);
- line-height: .98;
- letter-spacing: -.03em;
+ line-height: 1.05;
+ letter-spacing: -.02em;
  font-weight: 950;
+ max-width: 1100px;
+ margin-left: auto;
+ margin-right: auto;
  }
  .blue { color: #3b82f6; }
  .hero-sub {
@@ -176,7 +173,7 @@
  }
  .button.primary { background: #2563eb; box-shadow: 0 0 28px rgba(37,99,235,.25); }
  .button.secondary { border: 1px solid rgba(255,255,255,.14); color: rgba(255,255,255,.74); }
- section { padding: 105px 0; position: relative; }
+ section { padding: 80px 0; position: relative; }
  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 54px; align-items: center; }
  .label { color: #60a5fa; font-size: 12px; font-weight: 950; text-transform: uppercase; letter-spacing: .28em; margin-bottom: 18px; }
  h2 { margin: 0; font-size: clamp(38px, 5vw, 66px); line-height: 1.02; letter-spacing: -.02em; font-weight: 950; }
@@ -223,7 +220,8 @@
  .final-cta { text-align: center; background: rgba(37,99,235,.1); border: 1px solid rgba(96,165,250,.35); border-radius: 38px; padding: 56px 34px; }
  footer { text-align: center; color: rgba(255,255,255,.38); padding: 40px 0 70px; line-height: 1.8; }
  @media (max-width: 900px) {
- nav, .pill, .right-rail { display: none; }
+ .right-rail { display: none; }
+ section { padding: 50px 0; }
  .grid-2, .compare-wrap, .feature-grid, .journey-grid { grid-template-columns: 1fr; }
  .industry-grid { grid-template-columns: 1fr 1fr; }
  .vs { position: relative; left: auto; top: auto; transform: none; margin: -5px auto; }
@@ -258,8 +256,7 @@
  <a href="#webinar" class="pill">▶️ Watch The Webinar</a>
  </header>
 
- <div class="eyebrow">✦ Search Intercept Positioning™</div>
- <h1>What If Google Suggested YOU<br><span class="blue">Before Showing Results?</span></h1>
+ <h1>What If Google Suggested YOU Before <span class="blue">Showing Results?</span></h1>
  <p class="hero-sub">Before the click. <span>•</span> Before the ads. <span>•</span> Before the competition.</p><div class="search-card">
  <div class="search-bar"><span>motorcycle injury attorney</span><span>⌕</span></div>
  <div class="suggest-box">
